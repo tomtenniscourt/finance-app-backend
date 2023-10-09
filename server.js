@@ -32,3 +32,5 @@ app.use("/portfolio", portfolioRouter)
 //npm run devStart = start script for server
 app.listen(3000, () => {console.log("Server Started Successfully")}) // listen on port 3000, runs when server starts
 
+
+console.log("Cat test")
