@@ -14,7 +14,7 @@ db.once("open", () => {console.log("connected to database")}) // runs once when 
 
 app.use(
     cors({
-      origin: ["http://localhost:3000", "https://finance-app-black.vercel.app"],
+      origin: "*" // ["http://localhost:3000", "https://finance-app-black.vercel.app"]
     })
   );
   
