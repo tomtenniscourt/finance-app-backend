@@ -2,6 +2,8 @@ require("dotenv").config() // allows us to load environment variable from .env
 const express = require("express") // pulls in express library
 const app = express() // creates app variable we can use to configure server
 const mongoose = require("mongoose") // pulls in mongoose library we'll use to interface with mongoDB
+const cors = require("cors");
+
 
  mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true }) // connect to database, pulled from the var in .env
 const db = mongoose.connection
