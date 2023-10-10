@@ -14,21 +14,13 @@ db.once("open", () => {console.log("connected to database")}) // runs once when 
 app.use(express.json())
 
 // require the routes from our routes/finance file
-const userRouter = require("./routes/user")
-const newsRouter = require("./routes/news")
-const stocksRouter = require("./routes/stocks")
-const cryptoRouter = require("./routes/crypto")
-const portfolioRouter = require("./routes/portfolio")
+
 
 
 // EG: for any url that begins with /user, use the routes in the userRouter
-app.use("/user", userRouter)
-app.use("/news", newsRouter)
-app.use("/stocks", stocksRouter)
-app.use("/crypto", cryptoRouter)
-app.use("/portfolio", portfolioRouter)
+
 
 
 //npm run devStart = start script for server
-app.listen(3000, () => {console.log("Server Started Successfully")}) // listen on port 3000, runs when server starts
+app.listen(5001, () => {console.log("Server Started Successfully")}) // listen on port 3000, runs when server starts
 
