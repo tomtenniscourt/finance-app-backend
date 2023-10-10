@@ -10,6 +10,13 @@ db.once("open", () => {console.log("connected to database")}) // runs once when 
 
 // middleware - runs after the server receives a request but before it gets passed to routes
 
+app.use(
+    cors({
+      origin: "http://localhost:5001",
+    })
+  );
+  
+
 // allows us to process requests as JSON
 app.use(express.json())
 
