@@ -14,12 +14,10 @@ db.once("open", () => {console.log("connected to database")}) // runs once when 
 app.use(express.json())
 
 // require the routes from our routes/finance file
-
-
+const userRouter = require("./routes/users")
 
 // EG: for any url that begins with /user, use the routes in the userRouter
-
-
+app.use("/users", userRouter)
 
 //npm run start = start script for server
 const port = process.env.PORT || 5001;
