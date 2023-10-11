@@ -5,7 +5,16 @@ const app = express() // creates app variable we can use to configure server
 const mongoose = require("mongoose") // pulls in mongoose library we'll use to interface with mongoDB
 
 // bgSjsanaPQCnyMMq
-mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true }) // connect to database, pulled from the var in .env
+
+const env = process.env.NODE_ENV || "development";
+let dbUri;
+if (env === "production") {
+  dbUri = process.env.DATABASE_URL_PROD
+} else {
+  dbUri = process.env.DATABASE_URL_DEV
+}
+
+mongoose.connect(dbUri, { useNewUrlParser: true }) // connect to database, pulled from the var in .env
 const db = mongoose.connection
 db.on("error", (error) => {console.error(error)}) // on error, console log the error
 db.once("open", () => {console.log("connected to database")}) // runs once when connected to db
