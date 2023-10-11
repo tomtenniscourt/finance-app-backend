@@ -40,6 +40,7 @@ app.use("/users", userRouter)
 
 //npm run start = start script for server
 const port = process.env.PORT || 5001;
+console.log('port', port)
 app.listen(port, () => {console.log("Server Started Successfully")}) // listen on port, runs when server starts
 
 console.log('Working')
