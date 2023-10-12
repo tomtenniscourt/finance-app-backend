@@ -13,9 +13,24 @@ const getAllUsers = async(req,res) => {
     }
 }
 
-
+// Create one user
+const createOneUser = async(req,res) => {
+    console.log('req body',req.body)
+    const user = new userSchema({
+        name: req.body.name,
+        email: req.body.email
+    })
+    try {
+        const newUser = await user.save()
+        res.status(201).json(newUser)
+    }
+    catch (err) {
+        res.status(400).json({message: err.message})
+    }
+}
 
 module.exports = {
-    getAllUsers
+    getAllUsers,
+    createOneUser
 }
 
