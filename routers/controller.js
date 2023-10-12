@@ -29,7 +29,6 @@ const getOneUser = async (req,res) => {
 
 // Create One User
 const createOneUser = async(req,res) => {
-    console.log('req body',req.body)
     const user = new userSchema({
         firstname: req.body.firstname,
         lastname: req.body.lastname,
@@ -44,9 +43,21 @@ const createOneUser = async(req,res) => {
     }
 }
 
+// Update One User
+const updateOneUser = async (req,res) => {
+    try {
+        const user = await userSchema.findByIdAndUpdate(req.params.id, req.body)
+        res.status(201).json(user)
+    }
+    catch (err) {
+        res.status(400).json({message: err.message})
+    }
+}
+
 module.exports = {
     getAllUsers,
     createOneUser,
-    getOneUser
+    getOneUser,
+    updateOneUser
 }
 

@@ -5,7 +5,8 @@ const userSchema = require("../models/user")
 const {
     getAllUsers,
     createOneUser,
-    getOneUser
+    getOneUser,
+    updateOneUser
 } = require("./controller.js")
 
 
@@ -16,5 +17,6 @@ router.route("/users")
 
 router.route("/users/:id")
     .get(getOneUser)
+    .put(updateOneUser)
 
 module.exports = router
