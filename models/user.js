@@ -23,4 +23,10 @@ const userSchema = new mongoose.Schema({
     }
 })
 
+/* mongoose.model(
+        Name of the model
+        Name of the Schema above
+        Name of the collection within the database to be added to.
+    )
+ */ 
 module.exports = mongoose.model("users", userSchema, "users")
