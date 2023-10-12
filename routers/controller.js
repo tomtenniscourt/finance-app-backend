@@ -55,10 +55,23 @@ const updateOneUser = async (req,res) => {
     }
 }
 
+// DELETE REQUESTS
+// Delete One USer
+const deleteOneUser = async (req, res) => {
+    try {
+        const user = await userSchema.findByIdAndDelete(req.params.id)
+        res.status(201).json(user)
+    }
+    catch (err) {
+        res.status(400).json({message: err.message})
+    }
+}
+
 module.exports = {
     getAllUsers,
     createOneUser,
     getOneUser,
-    updateOneUser
+    updateOneUser,
+    deleteOneUser
 }
 
