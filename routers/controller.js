@@ -1,9 +1,9 @@
 const express = require("express")
-const router = express.Router()
 const userSchema = require("../models/user")
 
+
 // Getting All
-router.get("/", async (req,res) => {
+const getAllUsers = async(req,res) => {
     try {
         const users = await userSchema.find()
         res.json(users)
@@ -11,15 +11,14 @@ router.get("/", async (req,res) => {
     catch (err) {
         res.status(500).json({message: err.message})
     }
-})
+}
 
-// Getting One
-
-// Creating One
-router.post("/", async (req,res) => {
+// Create one user
+const createOneUser = async(req,res) => {
     console.log('req body',req.body)
     const user = new userSchema({
-        name: req.body.name,
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
         email: req.body.email
     })
     try {
@@ -29,9 +28,10 @@ router.post("/", async (req,res) => {
     catch (err) {
         res.status(400).json({message: err.message})
     }
-})
-// Updating One
+}
 
-// Deleting One
+module.exports = {
+    getAllUsers,
+    createOneUser
+}
 
-module.exports = router
