@@ -17,7 +17,8 @@ const getAllUsers = async(req,res) => {
 const createOneUser = async(req,res) => {
     console.log('req body',req.body)
     const user = new userSchema({
-        name: req.body.name,
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
         email: req.body.email
     })
     try {
