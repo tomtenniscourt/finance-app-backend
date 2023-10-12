@@ -2,18 +2,14 @@ const express = require("express")
 const router = express.Router()
 const userSchema = require("../models/user")
 
-// Getting All
-router.get("/", async (req,res) => {
-    try {
-        const users = await userSchema.find()
-        res.json(users)
-    }
-    catch (err) {
-        res.status(500).json({message: err.message})
-    }
-})
+const {
+    getAllUsers
+} = require("./controller.js")
+
 
 // Getting One
+router.route("/users").get(getAllUsers)
+
 
 // Creating One
 router.post("/", async (req,res) => {
