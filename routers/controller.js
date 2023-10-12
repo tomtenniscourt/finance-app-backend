@@ -26,6 +26,7 @@ const getOneUser = async (req,res) => {
     }
 }
 
+// POST REQUESTS
 // Create One User
 const createOneUser = async(req,res) => {
     const user = new userSchema({
@@ -42,6 +43,7 @@ const createOneUser = async(req,res) => {
     }
 }
 
+// PUT REQUESTS
 // Update One User
 const updateOneUser = async (req,res) => {
     try {
