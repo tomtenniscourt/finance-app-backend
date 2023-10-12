@@ -6,7 +6,6 @@ const userSchema = require("../models/user")
 // GET REQUESTS
 // Get All
 const getAllUsers = async(req,res) => {
-    console.log('res', res)
     try {
         const users = await userSchema.find()
         res.json(users)
