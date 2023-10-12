@@ -3,7 +3,9 @@ const router = express.Router()
 const userSchema = require("../models/user")
 
 const {
-    getAllUsers, createOneUser
+    getAllUsers,
+    createOneUser,
+    getOneUser
 } = require("./controller.js")
 
 
@@ -12,5 +14,7 @@ router.route("/users")
     .get(getAllUsers)
     .post(createOneUser)
 
+router.route("/users/:id")
+    .get(getOneUser)
 
 module.exports = router

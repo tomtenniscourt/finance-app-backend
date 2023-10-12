@@ -1,9 +1,12 @@
 const express = require("express")
 const userSchema = require("../models/user")
 
+// ***** USER ROUTES *****
 
-// Getting All
+// GET REQUESTS
+// Get All
 const getAllUsers = async(req,res) => {
+    console.log('res', res)
     try {
         const users = await userSchema.find()
         res.json(users)
@@ -13,7 +16,18 @@ const getAllUsers = async(req,res) => {
     }
 }
 
-// Create one user
+// Get One
+const getOneUser = async (req,res) => {
+    try {
+        const user = await userSchema.findById(req.params.id)
+        res.json(user)
+    }
+    catch (err) {
+        res.status(500).json({message: err.message})
+    }
+}
+
+// Create One User
 const createOneUser = async(req,res) => {
     console.log('req body',req.body)
     const user = new userSchema({
@@ -32,6 +46,7 @@ const createOneUser = async(req,res) => {
 
 module.exports = {
     getAllUsers,
-    createOneUser
+    createOneUser,
+    getOneUser
 }
 
