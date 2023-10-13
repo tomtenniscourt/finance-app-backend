@@ -30,6 +30,7 @@ const getOneUser = async (req,res) => {
 // POST REQUESTS
 // Create One User
 const createOneUser = async(req,res) => {
+
     try {
         const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(req.body.password, salt)
@@ -50,6 +51,7 @@ const createOneUser = async(req,res) => {
         res.status(400).json({message: err.message})
     }
 }
+
 
 // Check user input matches database item.
 const checkUserData = async(req, res) => {
@@ -75,8 +77,6 @@ const checkUserData = async(req, res) => {
 
     }
 }
-
-
 
 // PUT REQUESTS
 // Update One User
