@@ -30,18 +30,20 @@ const getOneUser = async (req,res) => {
 // POST REQUESTS
 // Create One User
 const createOneUser = async(req,res) => {
-    const user = new userSchema({
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
-        email: req.body.email,
-        password: req.body.password
-    })
     try {
-        const newUser = await user.save()
-        const salt = await bcrypt.genSalt(5)
+        const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(req.body.password, salt)
         console.log("Salt: ", salt)
         console.log("Hashed password: ", hashedPassword)
+
+        const user = new userSchema({
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            email: req.body.email,
+            password: hashedPassword
+        })
+
+        const newUser = await user.save()
         res.status(201).json(newUser)
     }
     catch (err) {
