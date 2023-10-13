@@ -1,5 +1,6 @@
 const express = require("express")
 const userSchema = require("../models/user")
+const bcrypt = require("bcrypt")
 
 // ***** USER ROUTES *****
 
@@ -32,10 +33,15 @@ const createOneUser = async(req,res) => {
     const user = new userSchema({
         firstname: req.body.firstname,
         lastname: req.body.lastname,
-        email: req.body.email
+        email: req.body.email,
+        password: req.body.password
     })
     try {
         const newUser = await user.save()
+        const salt = await bcrypt.genSalt(5)
+        const hashedPassword = await bcrypt.hash(req.body.password, salt)
+        console.log("Salt: ", salt)
+        console.log("Hashed password: ", hashedPassword)
         res.status(201).json(newUser)
     }
     catch (err) {
