@@ -14,16 +14,18 @@ const {
 
 
 // User routes
+router.route("/users/register")
+    .post(createOneUser)
+
+router.route("/users/login")
+    .post(checkUserData)
+
 router.route("/users")
     .get(getAllUsers)
-    .post(createOneUser)
 
 router.route("/users/:id")
     .get(getOneUser)
     .put(updateOneUser)
     .delete(deleteOneUser)
-
-router.route("/users/login")
-    .post(checkUserData)
     
 module.exports = router
