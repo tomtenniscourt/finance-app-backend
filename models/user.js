@@ -13,13 +13,13 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     }, 
-    // password: {
-        // type: String,
-        // required: true
-    // },
+    password: {
+        type: String,
+        required: true
+    },
     // portfolioId: {
-        // type: [{ type: portfolioSchema }],
-        // required: true
+    //     type: [{ type: portfolioSchema }],
+    //     required: true
     // }
 })
 
