@@ -34,8 +34,6 @@ const createOneUser = async(req,res) => {
     try {
         const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(req.body.password, salt)
-        console.log("Salt: ", salt)
-        console.log("Hashed password: ", hashedPassword)
 
         const user = new userSchema({
             firstname: req.body.firstname,
