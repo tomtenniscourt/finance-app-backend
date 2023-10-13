@@ -3,7 +3,12 @@ const router = express.Router()
 const userSchema = require("../models/user")
 
 const {
-    getAllUsers, createOneUser
+    getAllUsers,
+    createOneUser,
+    getOneUser,
+    updateOneUser,
+    deleteOneUser,
+    checkUserData
 } = require("./controller.js")
 
 
@@ -12,5 +17,12 @@ router.route("/users")
     .get(getAllUsers)
     .post(createOneUser)
 
+router.route("/users/:id")
+    .get(getOneUser)
+    .put(updateOneUser)
+    .delete(deleteOneUser)
 
+router.route("/users/login")
+    .post(checkUserData)
+    
 module.exports = router
