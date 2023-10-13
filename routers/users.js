@@ -7,7 +7,9 @@ const {
     createOneUser,
     getOneUser,
     updateOneUser,
-    deleteOneUser
+    deleteOneUser,
+    checkUserData
+
 } = require("./controller.js")
 
 
@@ -21,4 +23,7 @@ router.route("/users/:id")
     .put(updateOneUser)
     .delete(deleteOneUser)
 
+router.route("/users/login")
+    .post(checkUserData)
+    
 module.exports = router
