@@ -5,6 +5,7 @@ const app = express() // creates app variable we can use to configure server
 const mongoose = require("mongoose") // pulls in mongoose library we'll use to interface with mongoDB
 const userRoutes = require("./routers/users.js")
 
+// jb database pass
 // bgSjsanaPQCnyMMq
 
 const env = process.env.NODE_ENV || "development";
