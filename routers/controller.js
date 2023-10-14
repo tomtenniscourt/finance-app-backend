@@ -65,8 +65,8 @@ const checkUserData = async (req, res, next) => {
         next()
         
     } else {
-        res.send("Failure - Not Authorised")
         req.loginSuccess = false
+        next()
     }
   } catch (err) {
     console.log(err);
