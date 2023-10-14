@@ -8,8 +8,8 @@ const {
     getOneUser,
     updateOneUser,
     deleteOneUser,
-    checkUserData
-
+    checkUserData,
+    handleJWT
 } = require("./controller.js")
 
 
@@ -19,6 +19,7 @@ router.route("/users/register")
 
 router.route("/users/login")
     .post(checkUserData)
+    .post(handleJWT)
 
 router.route("/users")
     .get(getAllUsers)

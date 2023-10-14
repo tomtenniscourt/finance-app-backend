@@ -68,6 +68,10 @@ const checkUserData = async (req, res) => {
   }
 };
 
+const handleJWT = async (req,res) => {
+
+}
+
 // PUT REQUESTS
 // Update One User
 const updateOneUser = async (req, res) => {
@@ -97,4 +101,5 @@ module.exports = {
   updateOneUser,
   deleteOneUser,
   checkUserData,
+  handleJWT
 };
