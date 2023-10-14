@@ -47,7 +47,7 @@ const createOneUser = async (req, res) => {
 };
 
 // Check user login details match database item.
-const checkUserData = async (req, res) => {
+const checkUserData = async (req, res, next) => {
   const userEmail = req.body.email;
   // find user in database according to provided user email
   const user = await userSchema.findOne({ email: userEmail });
@@ -59,6 +59,9 @@ const checkUserData = async (req, res) => {
   try {
     if ( await bcrypt.compare(req.body.password, user.password)) {
         res.send("Success - Logged In")
+        req.userEmail = userEmail
+        next()
+        
     } else {
         res.send("Failure - Not Authorised")
     }
@@ -69,6 +72,7 @@ const checkUserData = async (req, res) => {
 };
 
 const handleJWT = async (req,res) => {
+const userEmail = req.userEmail
 
 }
 
