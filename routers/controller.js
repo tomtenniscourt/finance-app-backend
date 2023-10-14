@@ -73,7 +73,8 @@ const checkUserData = async (req, res, next) => {
 
 const handleJWT = async (req,res) => {
 const userEmail = req.userEmail
-
+// Data for token, secret key to encrypt with
+jwt.sign(userEmail, process.env.ACCESS_TOKEN_SECRET)
 }
 
 // PUT REQUESTS
