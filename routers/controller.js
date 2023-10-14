@@ -48,12 +48,13 @@ const createOneUser = async (req, res) => {
 // Check user login details match database item.
 const checkUserData = async (req, res) => {
   const userEmail = req.body.email;
+  // find user in database according to provided user email
   const user = await userSchema.findOne({ email: userEmail });
 
   if (!user) {
     res.status(500).send("Can't find user");
   }
-
+// if there's a match, compare the provided password with the password in the database
   try {
     if ( await bcrypt.compare(req.body.password, user.password)) {
         res.send("Success - Logged In")
