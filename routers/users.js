@@ -18,8 +18,7 @@ router.route("/users/register")
     .post(createOneUser)
 
 router.route("/users/login")
-    .post(checkUserData)
-    .post(handleJWT)
+    .post([checkUserData, handleJWT])
 
 router.route("/users")
     .get(getAllUsers)
