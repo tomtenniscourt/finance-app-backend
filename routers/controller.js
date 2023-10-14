@@ -53,6 +53,7 @@ const checkUserData = async (req, res, next) => {
   const user = await userSchema.findOne({ email: userEmail });
 
   if (!user) {
+    // this runs when a user email doesn't exist, but not if the pass doesn't match DB
     res.status(500).send("Can't find user");
   }
 // if there's a match, compare the provided password with the password in the database
@@ -83,7 +84,8 @@ const accessToken = jwt.sign(userEmail, process.env.ACCESS_TOKEN_SECRET)
 // the encrypted user details will be encrypted in the accessToken, then returned as JSON below
 res.json({ accessToken: accessToken})
   } else {
-    // if req.loginSuccess is false (set in checkUserDetails)
+    // if req.loginSuccess is false (set in checkUserDetails).
+    // This runs when the emails match but the password does not.
     res.send("Failure - Not Authorized");
   }
 }
