@@ -45,7 +45,7 @@ const createOneUser = async (req, res) => {
   }
 };
 
-// Check user input matches database item.
+// Check user login details match database item.
 const checkUserData = async (req, res) => {
   const userEmail = req.body.email;
   const user = await userSchema.findOne({ email: userEmail });
