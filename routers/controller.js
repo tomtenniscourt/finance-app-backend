@@ -82,6 +82,8 @@ const accessToken = jwt.sign(userEmail, process.env.ACCESS_TOKEN_SECRET)
 // assuming the userEmail was authenticated correctly in the checkUserDetails function,
 // the encrypted user details will be encrypted in the accessToken, then returned as JSON below
 res.json({ accessToken: accessToken})
+  } else {
+    res.send("Failure - Not Authorized");
   }
 }
 
