@@ -58,12 +58,15 @@ const checkUserData = async (req, res, next) => {
 // if there's a match, compare the provided password with the password in the database
   try {
     if ( await bcrypt.compare(req.body.password, user.password)) {
-        res.send("Success - Logged In")
+      // removed the successful login console log as only one response can be given per request,
+      // calling next() and the subsequent response causes an error.
         req.userEmail = userEmail
+        req.loginSuccess = true
         next()
         
     } else {
         res.send("Failure - Not Authorised")
+        req.loginSuccess = false
     }
   } catch (err) {
     console.log(err);
