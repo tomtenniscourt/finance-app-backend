@@ -74,7 +74,10 @@ const checkUserData = async (req, res, next) => {
 const handleJWT = async (req,res) => {
 const userEmail = req.userEmail
 // Data for token, secret key to encrypt with
-jwt.sign(userEmail, process.env.ACCESS_TOKEN_SECRET)
+const accessToken = jwt.sign(userEmail, process.env.ACCESS_TOKEN_SECRET)
+// assuming the userEmail was authenticated correctly in the checkUserDetails function,
+// the encrypted user details will be encrypted in the accessToken, then returned as JSON below
+res.json({ accessToken: accessToken})
 }
 
 // PUT REQUESTS
