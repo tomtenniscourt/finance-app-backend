@@ -18,8 +18,8 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     // portfolioId: {
-        // type: [{ type: portfolioSchema }],
-        // required: true
+    //     type: [{ type: portfolioSchema }],
+    //     required: true
     // }
 })
 

@@ -19,7 +19,7 @@ if (env === "production") {
 mongoose.connect(dbUri, { useNewUrlParser: true }) // connect to database, pulled from the var in .env
 const db = mongoose.connection
 db.on("error", (error) => {console.error(error)}) // on error, console log the error
-db.once("open", () => {console.log("connected to database")}) // runs once when connected to db
+db.once("open", () => {console.log("Connected To Database")}) // runs once when connected to db
 
 // middleware - runs after the server receives a request but before it gets passed to routes
 
@@ -42,7 +42,4 @@ app.use(userRoutes)
 
 //npm run start = start script for server
 const port = process.env.PORT || 5001;
-console.log('port', port)
-app.listen(port, () => {console.log("Server Started Successfully")}) // listen on port, runs when server starts
-
-console.log('Working')
+app.listen(port, () => {console.log(`Server Started Successfully on port: ${port}`)}) // listen on port, runs when server starts
