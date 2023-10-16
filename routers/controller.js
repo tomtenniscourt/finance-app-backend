@@ -30,6 +30,7 @@ const getOneUser = async (req, res) => {
 // Create One User
 const createOneUser = async (req, res) => {
   try {
+    // 10 refers to the salt
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
     const user = new userSchema({
@@ -78,7 +79,7 @@ const checkUserData = async (req, res, next) => {
 const handleJWT = async (req,res) => {
   if (req.loginSuccess) {
     const userEmail = req.userEmail
-// Data for token, secret key to encrypt with
+// (Data for token, secret key to encrypt with)
 const accessToken = jwt.sign(userEmail, process.env.ACCESS_TOKEN_SECRET)
 // assuming the userEmail was authenticated correctly in the checkUserDetails function,
 // the encrypted user details will be encrypted in the accessToken, then returned as JSON below
