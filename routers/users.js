@@ -15,10 +15,10 @@ const {
 
 
 // User routes
-router.route("/users/register")
+router.route("/register")
     .post(createOneUser)
 
-router.route("/users/login")
+router.route("/login")
     .post([checkUserData, handleJWT])
 
 router.route("/users")
