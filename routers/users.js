@@ -9,7 +9,8 @@ const {
     updateOneUser,
     deleteOneUser,
     checkUserData,
-    handleJWT
+    handleJWT,
+    authenticateToken
 } = require("./controller.js")
 
 
@@ -24,8 +25,8 @@ router.route("/users")
     .get(getAllUsers)
 
 router.route("/users/:id")
-    .get(getOneUser)
-    .put(updateOneUser)
-    .delete(deleteOneUser)
+    .get([authenticateToken, getOneUser])
+    .put([authenticateToken, updateOneUser])
+    .delete([authenticateToken, deleteOneUser])
     
 module.exports = router
