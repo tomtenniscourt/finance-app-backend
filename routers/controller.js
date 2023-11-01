@@ -47,6 +47,7 @@ const createOneUser = async (req, res) => {
   }
 };
 
+// Begin user log in process here
 // Check user login details match database item.
 const checkUserData = async (req, res, next) => {
   const userEmail = req.body.email;
@@ -80,10 +81,15 @@ const handleJWT = async (req,res) => {
   if (req.loginSuccess) {
     const userEmail = req.userEmail
 // (Data for token, secret key to encrypt with)
-const accessToken = jwt.sign(userEmail, process.env.ACCESS_TOKEN_SECRET)
+// Encrypt the user using the secret key
+const accessToken = jwt.sign({userEmail}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "20s"})
+console.log('accessToken', accessToken)
+// Decrypt the user
+const verifiedToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET)
+console.log('verified token', verifiedToken)
 // assuming the userEmail was authenticated correctly in the checkUserDetails function,
 // the encrypted user details will be encrypted in the accessToken, then returned as JSON below
-res.json({ accessToken: accessToken})
+res.json({ accessToken: accessToken, expiredAt: verifiedToken.exp })
   } else {
     // if req.loginSuccess is false (set in checkUserDetails).
     // This runs when the emails match but the password does not.
