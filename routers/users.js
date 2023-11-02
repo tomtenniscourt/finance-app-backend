@@ -5,7 +5,7 @@ const userSchema = require("../models/user")
 const {
     getAllUsers,
     createOneUser,
-    getOneUser,
+    getCurrentUser,
     updateOneUser,
     deleteOneUser,
     checkUserData,
@@ -26,7 +26,7 @@ router.route("/users")
     .get(getAllUsers)
 
 router.route("/users/:id")
-    .get([authenticateToken, getOneUser])
+    .get([authenticateToken, getCurrentUser])
     .put([authenticateToken, updateOneUser])
     .delete([authenticateToken, deleteOneUser])
     

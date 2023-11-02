@@ -19,7 +19,7 @@ const getAllUsers = async (req, res) => {
 };
 
 // Get One
-const getOneUser = async (req, res) => {
+const getCurrentUser = async (req, res) => {
   try {
     const user = await userSchema.findById(req.params.id);
     res.json(user);
@@ -31,6 +31,7 @@ const getOneUser = async (req, res) => {
 // POST REQUESTS
 // Create One User
 const createOneUser = async (req, res) => {
+  // console.log('login res *** ', res)
   try {
     // 10 refers to the salt
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -43,6 +44,7 @@ const createOneUser = async (req, res) => {
     });
 
     const newUser = await user.save();
+    console.log('newUser: ', newUser)
     res.status(201).json(newUser);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -53,8 +55,10 @@ const createOneUser = async (req, res) => {
 // Check user login details match database item.
 const checkUserData = async (req, res, next) => {
   const userEmail = req.body.email;
+  // console.log('login req *** ', req)
   // find user in database according to provided user email
   const user = await userSchema.findOne({ email: userEmail });
+  console.log('check current user:', user._id)
 
   if (!user) {
     // this runs when a user email doesn't exist, but not if the pass doesn't match DB
@@ -67,6 +71,7 @@ const checkUserData = async (req, res, next) => {
       // calling next() and the subsequent response causes an error.
         req.userEmail = userEmail
         req.loginSuccess = true
+        req.userId = user._id
         next()
         
     } else {
@@ -82,6 +87,8 @@ const checkUserData = async (req, res, next) => {
 const handleJWT = async (req,res) => {
   if (req.loginSuccess) {
     const userEmail = req.userEmail
+    const userId = req.userId
+
 // (Data for token, secret key to encrypt with)
 // Encrypt the user using the secret key
 const accessToken = jwt.sign({userEmail}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "20s"})
@@ -97,7 +104,7 @@ await storeRefreshTokenToDB.save()
 
 // assuming the userEmail was authenticated correctly in the checkUserDetails function,
 // the encrypted user details will be encrypted in the accessToken, then returned as JSON below
-res.json({ accessToken: accessToken, expiredAt: verifiedToken.exp })
+res.json({ accessToken: accessToken, expiredAt: verifiedToken.exp, userId: userId })
   } else {
     // if req.loginSuccess is false (set in checkUserDetails).
     // This runs when the emails match but the password does not.
@@ -177,7 +184,7 @@ const regenerateAccessToken = async (req, res) => {
 module.exports = {
   getAllUsers,
   createOneUser,
-  getOneUser,
+  getCurrentUser,
   updateOneUser,
   deleteOneUser,
   checkUserData,
