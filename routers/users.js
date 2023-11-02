@@ -10,7 +10,8 @@ const {
     deleteOneUser,
     checkUserData,
     handleJWT,
-    authenticateToken
+    authenticateToken,
+    regenerateAccessToken
 } = require("./controller.js")
 
 
@@ -29,4 +30,7 @@ router.route("/users/:id")
     .put([authenticateToken, updateOneUser])
     .delete([authenticateToken, deleteOneUser])
     
+router.route("/users/token")
+    .post(regenerateAccessToken)
+
 module.exports = router
