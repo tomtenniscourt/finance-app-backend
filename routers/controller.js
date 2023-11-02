@@ -135,29 +135,49 @@ const deleteOneUser = async (req, res) => {
 };
 
 // To be used any time the User needs to be verified. 
-const authenticateToken = (req,res,next) => {
+const authenticateToken = async (req,res,next) => {
+
   // access the authorization header in the incoming request (think: axiosInstanceWithToken)
-const authHeader = req.headers["authorization"]
-console.log('authHeader', authHeader)
-// If there is authHeader in req, split the contents and return the second element.
-const token = authHeader && authHeader.split(" ")[1]
-if (token == null) return res.status(401)
+  const authHeader = req.headers["authorization"]
+  console.log('authHeader', authHeader, "req headers", req.headers["expirytime"])
+  
+  // If there is authHeader in req, split the contents and return the second element.
+  const token = authHeader && authHeader.split(" ")[1]
+  if (!token) {
+  const expiryTime =  req.headers["expirytime"]
+console.log('expiryTime',expiryTime)
+const currentTimestamp = Math.floor(Date.now() / 1000);
+console.log('currentTimestamp',currentTimestamp)
+
+if (currentTimestamp > expiryTime - 10) {
+  console.log('regen CALLEd')
+  const verifiedToken =  jwt.verify(authHeader, process.env.ACCESS_TOKEN_SECRET)
+  console.log('verifiedToken',verifiedToken)
+  await regenerateAccessToken(req,res,verifiedToken.userEmail)
+}
+
+  } 
+
 
 // Decrypt the above token and return the user email. 
-jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, email) => {
-  console.log('email', email)
-    if (err) return res.sendStatus(403)
-    req.user = email
-    next()
-})
+// jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, email) => {
+//   console.log('email', email)
+//     if (err) return console.log("error", err)
+//     req.user = email
+
+//     next()
+// })
+
+
+
 }
 
 // When the access token has expired, we use the refresh token to generate a new access token.
-const regenerateAccessToken = async (req, res) => {
-  const userEmail = req.body.email;
-
+const regenerateAccessToken = async (req, res, email) => {
+  const userEmail = email;
+console.log('user email in regen', userEmail)
   // Look up the refresh token that belongs to the current user email
-  const refreshTokenObject = await refreshTokenSchema.find({ email: "ginger@spicegirls.com" })
+  const refreshTokenObject = await refreshTokenSchema.find({ email: userEmail })
   // Get the token part of the returned object
   const refreshToken = refreshTokenObject[0].token
 
@@ -175,6 +195,7 @@ const regenerateAccessToken = async (req, res) => {
     // Create a new access token & pass back to the client along with the expiration time.
     const accessToken = jwt.sign({userEmail}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "20s"})
     const verifiedToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET)
+    console.log('NEW ACCESS TOKEN GENERATED', accessToken)
     res.json({accessToken: accessToken, expiredAt: verifiedToken.exp})
   })
 
