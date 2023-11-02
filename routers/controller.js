@@ -1,7 +1,9 @@
 const express = require("express");
 const userSchema = require("../models/user");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
+const refreshTokenSchema = require("../models/refreshTokenSchema");
+
 
 // ***** USER ROUTES *****
 
@@ -87,6 +89,12 @@ console.log('accessToken', accessToken)
 // Decrypt the user
 const verifiedToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET)
 console.log('verified token', verifiedToken)
+
+// Create a refresh token
+const refreshToken = jwt.sign({userEmail}, process.env.REFRESH_TOKEN_SECRET)
+const storeRefreshTokenToDB = new refreshTokenSchema({email: userEmail, token: refreshToken})
+await storeRefreshTokenToDB.save()
+
 // assuming the userEmail was authenticated correctly in the checkUserDetails function,
 // the encrypted user details will be encrypted in the accessToken, then returned as JSON below
 res.json({ accessToken: accessToken, expiredAt: verifiedToken.exp })
@@ -137,6 +145,34 @@ jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, email) => {
 })
 }
 
+// When the access token has expired, we use the refresh token to generate a new access token.
+const regenerateAccessToken = async (req, res) => {
+  const userEmail = req.body.email;
+
+  // Look up the refresh token that belongs to the current user email
+  const refreshTokenObject = await refreshTokenSchema.find({ email: "ginger@spicegirls.com" })
+  // Get the token part of the returned object
+  const refreshToken = refreshTokenObject[0].token
+
+  console.log('*** refreshToken ***', refreshToken)
+
+  // Make sure the token exists
+  if (!refreshToken) {
+    return res.status(401)
+  }
+  // Check the refresh token is valid
+  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, userEmail) => {
+    
+    if (err) return console.log('Invalid refresh token')
+
+    // Create a new access token & pass back to the client along with the expiration time.
+    const accessToken = jwt.sign({userEmail}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "20s"})
+    const verifiedToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET)
+    res.json({accessToken: accessToken, expiredAt: verifiedToken.exp})
+  })
+
+}
+// regenerateAccessToken()
 
 module.exports = {
   getAllUsers,
@@ -146,5 +182,6 @@ module.exports = {
   deleteOneUser,
   checkUserData,
   handleJWT,
-  authenticateToken
+  authenticateToken,
+  regenerateAccessToken
 };
